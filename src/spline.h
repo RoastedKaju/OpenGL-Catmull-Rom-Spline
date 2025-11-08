@@ -12,6 +12,8 @@ public:
   void AddPoint(const Point &_point);
   void RemovePoint();
   void RemovePoint(const std::vector<Point>::iterator &_it);
+  [[nodiscard]]
+  Point GetPointOnSpline(float t) const;
 
   [[nodiscard]]
   inline const std::vector<Point> &GetPoints() const { return points; }

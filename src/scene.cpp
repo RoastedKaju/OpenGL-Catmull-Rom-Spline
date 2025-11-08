@@ -17,4 +17,14 @@ void Scene::Render() {
     glVertex2f(point.x, point.y);
   }
   glEnd();
+
+  // Curve
+  glColor3f(0.0f, 1.0f, 0.0f);
+  glBegin(GL_LINE_STRIP);
+  for (int i = 0; i <= 100; ++i) {
+    float t = i / 100.0f;
+    Point p = spline->GetPointOnSpline(t);
+    glVertex2f(p.x, p.y);
+  }
+  glEnd();
 }
