@@ -6,8 +6,8 @@
 
 class Spline {
 public:
-  Spline();
-  ~Spline();
+  Spline() = default;
+  ~Spline() = default;
 
   void AddPoint(const Point &_point);
   void RemovePoint();
@@ -15,7 +15,7 @@ public:
   void CalculateUnitsPerSample();
 
   [[nodiscard]]
-  Point GetPointOnSpline(float t) const;
+  Point GetPointOnSpline(float t, bool is_closed) const;
 
   [[nodiscard]]
   inline const std::vector<Point> &GetPoints() const {

@@ -1,9 +1,5 @@
 #include "spline.h"
 
-Spline::Spline() {}
-
-Spline::~Spline() {}
-
 void Spline::AddPoint(const Point &_point) { points.push_back(_point); }
 
 void Spline::RemovePoint() {
@@ -17,7 +13,7 @@ void Spline::RemovePoint(const std::vector<Point>::iterator &_it) {
 }
 
 void Spline::CalculateUnitsPerSample() {
-  const int n = points.size();
+  const int n = static_cast<int>(points.size());
   const float resolution = 0.00025f;
   float total_length = 0.0f;
 
@@ -31,7 +27,7 @@ void Spline::CalculateUnitsPerSample() {
   units_per_sample = static_cast<int32_t>(total_length * resolution);
 }
 
-Point Spline::GetPointOnSpline(float t) const {
+Point Spline::GetPointOnSpline(float t, bool is_closed = false) const {
   // Points size check
   const size_t n = points.size();
   if (n < 2) {
@@ -42,15 +38,20 @@ Point Spline::GetPointOnSpline(float t) const {
   t = std::clamp(t, 0.0f, 1.0f);
 
   // Scale t to segment index
-  float scaledT = t * (static_cast<float>(n) - 1);
+  float segment_count =
+      is_closed ? static_cast<float>(n) : static_cast<float>(n - 1);
+  float scaledT = t * segment_count;
   int i = static_cast<int>(scaledT);
-  float localT = scaledT - i;
+  float localT = scaledT - static_cast<float>(i);
+
+  // Wrap lambda
+  auto wrap = [n](int index) { return (index + n) % static_cast<int>(n); };
 
   // Clamp indices
-  int i0 = std::max(i - 1, 0);
-  int i1 = i;
-  int i2 = std::min(i + 1, static_cast<int>(n - 1));
-  int i3 = std::min(i + 2, static_cast<int>(n - 1));
+  int i0 = is_closed ? wrap(i - 1) : std::max(i - 1, 0);
+  int i1 = is_closed ? wrap(i) : i;
+  int i2 = is_closed ? wrap(i + 1) : std::min(i + 1, static_cast<int>(n - 1));
+  int i3 = is_closed ? wrap(i + 2) : std::min(i + 2, static_cast<int>(n - 1));
 
   const Point &p0 = points[i0];
   const Point &p1 = points[i1];

@@ -23,7 +23,7 @@ void Scene::Render() {
   glBegin(GL_LINE_STRIP);
   for (int i = 0; i <= spline->GetSampleCount(); ++i) {
     float t = static_cast<float>(i) / spline->GetSampleCount();
-    Point p = spline->GetPointOnSpline(t);
+    Point p = spline->GetPointOnSpline(t, false);
     glVertex2f(p.x, p.y);
   }
   glEnd();
