@@ -1,6 +1,7 @@
 #include "common.h"
 #include "point.h"
 #include "scene.h"
+#include "control_widget.h"
 
 void ProcessInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -9,6 +10,8 @@ void ProcessInput(GLFWwindow *window) {
 }
 
 void OnMouseButton(GLFWwindow *window, int button, int action, int mods) {
+  if (ImGui::GetIO().WantCaptureMouse) return;
+
   const auto *scene = static_cast<Scene *>(glfwGetWindowUserPointer(window));
   if (!scene)
     return;
@@ -46,7 +49,6 @@ void OnMouseButton(GLFWwindow *window, int button, int action, int mods) {
 }
 
 int main() {
-
   if (glfwInit() != GLFW_TRUE) {
     std::cout << "Failed to initialize GLFW" << std::endl;
     return EXIT_FAILURE;
@@ -74,6 +76,8 @@ int main() {
   // Set the scene pointer to our main window
   glfwSetWindowUserPointer(window, scene);
 
+  ControlWidget* widget = new ControlWidget(window, scene->GetSpline().get());
+
   while (!glfwWindowShouldClose(window)) {
     ProcessInput(window);
 
@@ -81,11 +85,13 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     scene->Render();
+    widget->Render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
+  delete widget;
   delete scene;
 
   std::cout << "Shutting down..." << std::endl;

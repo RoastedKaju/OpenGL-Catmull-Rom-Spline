@@ -15,7 +15,7 @@ public:
   void CalculateUnitsPerSample();
 
   [[nodiscard]]
-  Point GetPointOnSpline(float t, bool is_closed) const;
+  Point GetPointOnSpline(float t);
 
   [[nodiscard]]
   inline const std::vector<Point> &GetPoints() const {
@@ -32,9 +32,21 @@ public:
     return units_per_sample;
   }
 
+  [[nodiscard]]
+  inline bool &GetLoopFlag() {
+    return closed_loop;
+  }
+
+  [[nodiscard]]
+  inline float &GetResolution() {
+    return resolution;
+  }
+
 private:
   std::vector<Point> points;
   int32_t units_per_sample = -1;
+  bool closed_loop = false;
+  float resolution = 0.00025f;
 };
 
 #endif // SPLINES_SPLINE_H
