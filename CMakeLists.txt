@@ -9,9 +9,14 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+# GLAD library
 add_library(glad "vendor/glad/src/glad.c")
 target_include_directories(glad PUBLIC "vendor/glad/include")
 
 find_package(OpenGL REQUIRED)
 add_subdirectory("vendor/glfw")
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw OpenGL::GL glad)
+
+# Imgui Sub-directory
+add_subdirectory(vendor/imgui)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw OpenGL::GL glad imgui)

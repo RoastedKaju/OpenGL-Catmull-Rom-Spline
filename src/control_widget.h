@@ -1,0 +1,6 @@
+#ifndef SPLINES_CONTROLWIDGET_H
+#define SPLINES_CONTROLWIDGET_H
+
+class control_widget {};
+
+#endif // SPLINES_CONTROLWIDGET_H
