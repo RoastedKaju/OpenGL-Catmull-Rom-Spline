@@ -33,12 +33,14 @@ void OnMouseButton(GLFWwindow *window, int button, int action, int mods) {
       if (dx * dx + dy * dy <= 250.0f) {
         std::cout << "Point removed" << std::endl;
         scene->GetSpline()->RemovePoint(itr);
+        scene->GetSpline()->CalculateUnitsPerSample();
         return;
       }
     }
 
     // Else add the point at location
     scene->GetSpline()->AddPoint({x, y});
+    scene->GetSpline()->CalculateUnitsPerSample();
     std::cout << "Point added At x: " << x << " y: " << y << std::endl;
   }
 }

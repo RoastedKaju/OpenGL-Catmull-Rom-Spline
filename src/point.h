@@ -16,6 +16,11 @@ struct Point {
   Point operator-(const Point other) const {
     return {x - other.x, y - other.y};
   }
+
+  static float DistanceSquared(const Point& P1, const Point& P2) {
+    const float result = std::pow(P1.x - P2.x, 2) + std::pow(P1.y - P2.y, 2);
+    return result;
+  }
 };
 
 #endif // SPLINES_POINT_H

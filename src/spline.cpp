@@ -16,6 +16,21 @@ void Spline::RemovePoint(const std::vector<Point>::iterator &_it) {
   points.erase(_it);
 }
 
+void Spline::CalculateUnitsPerSample() {
+  const int n = points.size();
+  const float resolution = 0.00025f;
+  float total_length = 0.0f;
+
+  for (int i = 0; i < n - 1; i++) {
+    const Point &p1 = points[i];
+    const Point &p2 = points[i + 1];
+
+    total_length += Point::DistanceSquared(p1, p2);
+  }
+
+  units_per_sample = static_cast<int32_t>(total_length * resolution);
+}
+
 Point Spline::GetPointOnSpline(float t) const {
   // Points size check
   const size_t n = points.size();

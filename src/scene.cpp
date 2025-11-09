@@ -21,8 +21,8 @@ void Scene::Render() {
   // Curve
   glColor3f(0.0f, 1.0f, 0.0f);
   glBegin(GL_LINE_STRIP);
-  for (int i = 0; i <= 100; ++i) {
-    float t = i / 100.0f;
+  for (int i = 0; i <= spline->GetSampleCount(); ++i) {
+    float t = static_cast<float>(i) / spline->GetSampleCount();
     Point p = spline->GetPointOnSpline(t);
     glVertex2f(p.x, p.y);
   }
