@@ -1,5 +1,11 @@
 # Catmull-Rom-Spline
 Spline visualizer made in OpenGL.
+<div>
+  <img src="docs/spline.jpg" alt="AppImage01" />
+</div>
+<div>
+  <img src="docs/spline_closed.jpg" alt="AppImage01" />
+</div>
 
 ## Controls
 - Left Click to Add Point
